@@ -1,6 +1,7 @@
 <?php
 echo validation_errors();
-echo form_open(base_url('Todo/modifier/'.$id));
+
+echo form_open(base_url('Todo/update/'.$id));
 echo form_label('ordre : ','ordre');
 echo form_input('ordre',set_value('ordre',$ordre));
 echo form_label('tâche : ','task');

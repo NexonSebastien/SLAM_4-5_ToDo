@@ -25,12 +25,15 @@ class TodoModel extends CI_Model
         parent::__construct();
     }
     public function get_By_Id($id)
-    {
-        return $this->db->get_where('todo',array('id',$id))->row_array();
+    { 
+        $data = $this->db-> get_where('todo', array('id' => $id))->row_array();
+        return $data;
     }
     public function get_all()
     {
+        $this->db->order_by('ordre');  
         return $this->db->get('todo')->result_array();
+        
     }
     public function add($params)
     {
@@ -47,6 +50,5 @@ class TodoModel extends CI_Model
         $this->db->where('id',$id);
         $this->db->update('todo',$params);
     }
-    
     }
      

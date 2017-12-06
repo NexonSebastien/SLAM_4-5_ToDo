@@ -39,6 +39,14 @@ class Todo extends CI_Controller{
         
     }
     
+    public function aFaire($id)
+    {
+    	$params = array('completed'=>0);
+    	$this->TodoModel->update($id,$params);
+    	redirect(base_url("todo/index"));
+        
+    }
+    
     public function add()
     {
         $this->form_validation->set_rules('ordre','ordre','required|numeric');
@@ -79,12 +87,15 @@ class Todo extends CI_Controller{
         }
         else
         {
-            $idTbl = array();
-            $idTbl['id'] = $id;
-            $utilisateur = $this->TodoModel->get_By_Id($id);
-            $idTbl['task']= $utilisateur['task'];
-            $idTbl['ordre']= $utilisateur['ordre'];
-            $this->load->view('TodoUpdate',$idTbl);
+            $data=[];
+            $unTodo = $this->TodoModel->get_By_Id($id);
+            $ordre = $unTodo['ordre'];
+            $task = $unTodo['task'];
+            $id = $unTodo['id'];
+            $data['ordre'] = $ordre;
+            $data['task'] = $task;
+            $data['id'] = $id;
+            $this->load->view('TodoUpdate',$data);
             
         } 
     }
@@ -92,5 +103,29 @@ class Todo extends CI_Controller{
     {
     	$this->TodoModel->delete($id);
     	redirect(base_url("todo/index")); 
+    }
+    
+    public function reordonner()
+    {
+        $this->form_validation->set_rules('ordre','ordre','required|numeric');
+        $lesTodos['mesTodos'] = $this->TodoModel->get_All();
+        $i = 0;
+        foreach ($lesTodos as $todo):
+            $todo['ordre'] = $i +10;
+        endforeach;
+        
+        if($this->form_validation->run() == TRUE)
+        {
+             $ordre = $this->input->post('ordre');
+             foreach ($lesTodos as $untodo):
+             $this->TodoModel->update($untodo['id'],$ordre);
+             endforeach;
+             redirect(base_url("Todo/index"));
+        }
+        else
+        {
+            $this->load->view('TodoReclasser',$lesTodos);
+        }
+        
     }
 }

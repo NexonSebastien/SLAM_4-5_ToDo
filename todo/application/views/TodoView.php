@@ -10,7 +10,7 @@
         <h1><?php echo $titre ?></h1>
         <?php foreach($lesTodos as $todo): ?>
         <?php if ($todo['completed']==1){ ?>
-        <strike><?php echo $todo['task']; ?></strike><a href= "<?php echo base_url('Todo/fait/'.$todo['id']) ?>"> Fait </a>
+        <strike><?php echo $todo['task']; ?></strike><a href= "<?php echo base_url('Todo/aFaire/'.$todo['id']) ?>"> Fait </a>
         <?php 
         } 
         else 
@@ -23,6 +23,7 @@
         <a href =" <?php echo base_url('todo/delete/'.$todo['id']); ?>"> Supprimé </a><br>
         <?php endforeach ?>
         <a href =" <?php echo base_url('todo/add'); ?>"> Ajouter </a> <br>
+        <a href =" <?php echo base_url('todo/reordonner'); ?>"> Réordonner les tâches </a> <br>
         
         </div>
         
